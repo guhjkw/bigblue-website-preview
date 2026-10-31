@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design prototype: Big Blue Vanuatu website</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="description" content="Fun dives, PADI courses up to instructor, cruise-ship diving and Stay &amp; Dive in Port Vila, Vanuatu. Book online with Big Blue Vanuatu.">
+<meta name="theme-color" content="#062a40">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%230a5578'/%3E%3Cpath d='M5 18c3-3 5-3 8 0s5 3 8 0 5-3 6-1' stroke='%23f5efe4' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://bigbluevanuatu.com">
+<script>document.documentElement.className += " js";</script>
+<style>
+/* ---------- tokens ---------- */
+:root{
+  --navy:#062a40; --deep:#0a3d5c; --ocean:#0a5578; --lagoon:#0f6f85; --foam:#e7f1f4;
+  --sand:#f6f0e6; --sand-2:#ece2d0; --ink:#0d2231; --muted:#45586a; --line:#d6e0e6;
+  --sun:#f2a65a; --sun-hover:#f5b878; --white:#fff;
+  --confirm-bg:#fff0b3; --confirm-ink:#4d3900;
+  --focus:#0a5578;
+  --r:18px; --shadow:0 12px 32px rgba(6,42,64,.10);
+  --serif:ui-serif,"New York","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ocean-grad:linear-gradient(160deg,#127e93 0%,#0a5578 40%,#062a40 100%);
+}
+/* ---------- base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:84px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;font:1.0625rem/1.65 var(--sans);color:var(--ink);background:var(--white);overflow-wrap:break-word}
+img{max-width:100%;height:auto;display:block;background:var(--ocean-grad);color:var(--foam);font-size:.85rem}
+img.photo{opacity:1;transition:opacity .6s ease}
+.ph{background:var(--ocean-grad);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;background:none}
+.js img.photo{opacity:0}
+.js img.photo.in{opacity:1}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;letter-spacing:-.01em;margin:0 0 .5em}
+h1{font-size:clamp(2.35rem,7vw,4.6rem)}
+h2{font-size:clamp(1.9rem,4.6vw,3.1rem)}
+h3{font-size:clamp(1.3rem,2.4vw,1.6rem)}
+h4{font-size:1.05rem;margin:0 0 .25em}
+p{margin:0 0 1em}
+a{color:var(--ocean);text-underline-offset:.18em}
+a:hover{color:var(--navy)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
+.dark{--focus:var(--sun)}
+.wrap{width:min(1180px,100%);margin:0 auto;padding:0 20px}
+@media (min-width:720px){.wrap{padding:0 32px}}
+.skip{position:absolute;left:12px;top:-60px;background:var(--sun);color:var(--navy);padding:10px 16px;border-radius:10px;font-weight:700;z-index:100}
+.skip:focus{top:12px}
+.eyebrow{font:700 .78rem/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--lagoon);margin:0 0 .9em}
+.dark .eyebrow{color:#9fd8e3}
+.lead{font-size:clamp(1.08rem,2.1vw,1.28rem);color:var(--muted);max-width:44em}
+.dark .lead{color:#d3e6ee}
+.small{font-size:.92rem;color:var(--muted)}
+.dark .small{color:#c4dbe5}
+mark.confirm{background:var(--confirm-bg);color:var(--confirm-ink);font:600 .82em/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;padding:.08em .4em;border-radius:5px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:46px;padding:.7em 1.3em;border-radius:999px;font:700 1rem/1.2 var(--sans);text-decoration:none;border:2px solid transparent;transition:background .2s,color .2s,border-color .2s;text-align:center}
+.btn-book,.btn-sun{background:var(--sun);color:var(--navy)}
+.btn-book:hover,.btn-sun:hover{background:var(--sun-hover);color:var(--navy)}
+.btn-line{border-color:currentColor;color:var(--ocean);background:transparent}
+.btn-line:hover{background:var(--foam);color:var(--navy)}
+.dark .btn-line{color:#fff}
+.dark .btn-line:hover{background:rgba(255,255,255,.12);color:#fff}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.arrow::after{content:"\2192";font-weight:400}
+/* ---------- prototype ribbon + header ---------- */
+.ribbon{background:var(--sand-2);color:var(--ink);font-size:.86rem;line-height:1.45;padding:.55em 0}
+.ribbon p{margin:0}
+.site-head{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff}
+.head-in{display:flex;align-items:center;gap:14px;min-height:68px}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;margin-right:auto}
+.brand svg{flex:none}
+.brand b{display:block;font:600 1.3rem/1 var(--serif);letter-spacing:.01em}
+.brand small{display:block;font:600 .66rem/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:#a9d3de;margin-top:4px}
+.brand:hover{color:#fff}
+.site-nav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 18px}
+.site-nav a{color:#fff;text-decoration:none;font-weight:600;font-size:.97rem;padding:8px 2px;display:block}
+.site-nav a:hover{color:var(--sun)}
+.site-head .btn-book{min-height:42px;padding:.55em 1.1em;font-size:.95rem}
+.menu-btn{display:none}
+.js .menu-btn{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 14px;border-radius:999px;border:2px solid rgba(255,255,255,.55);background:transparent;color:#fff;font:700 .95rem var(--sans);cursor:pointer}
+.menu-btn .bars{width:16px;height:2px;background:currentColor;position:relative}
+.menu-btn .bars::before,.menu-btn .bars::after{content:"";position:absolute;left:0;width:16px;height:2px;background:currentColor}
+.menu-btn .bars::before{top:-5px}.menu-btn .bars::after{top:5px}
+.site-head{--focus:var(--sun)}
+@media (max-width:959px){
+  .head-in{flex-wrap:wrap}
+  .site-nav{order:5;width:100%}
+  .site-nav ul{padding:0 0 12px}
+  .js .site-nav{display:none}
+  .js .site-nav.open{display:block}
+  .js .site-nav ul{flex-direction:column;gap:0;padding:4px 0 14px;border-top:1px solid rgba(255,255,255,.15)}
+  .js .site-nav a{padding:12px 2px;font-size:1.05rem;border-bottom:1px solid rgba(255,255,255,.08)}
+}
+@media (max-width:520px){.head-in{gap:8px}.brand small{display:none}.site-head .btn-book{padding:.5em .95em;font-size:.92rem}.js .menu-btn{width:44px;justify-content:center;padding:0}.menu-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
+@media (min-width:960px){.js .menu-btn{display:none}.site-nav{order:2}.site-head .btn-book{order:3}}
+/* ---------- hero ---------- */
+.hero{position:relative;color:#fff;background:var(--ocean-grad);overflow:hidden;min-height:min(86vh,780px);display:flex;align-items:flex-end}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:72% 40%;color:transparent;background:none}
+.hero img.broken{visibility:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,42,64,.42) 0%,rgba(6,42,64,.40) 28%,rgba(6,42,64,.80) 62%,rgba(6,42,64,.95) 100%)}
+.hero-copy{position:relative;z-index:1;padding-top:120px;padding-bottom:44px}
+.hero h1{max-width:12.5em;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.hero .lead{color:#e3f0f5;max-width:36em}
+.hero .eyebrow{color:#bfe6ee}
+.facts{list-style:none;margin:34px 0 0;padding:20px 0 0;border-top:1px solid rgba(255,255,255,.22);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 24px}
+.facts li{font-size:.93rem;color:#d6e9f0;line-height:1.35}
+.facts strong{display:block;font:600 1.35rem/1.15 var(--serif);color:#fff}
+@media (min-width:860px){.facts{grid-template-columns:repeat(4,minmax(0,1fr))}}
+/* ---------- sections ---------- */
+section{padding:72px 0}
+@media (min-width:860px){section{padding:104px 0}}
+.bg-sand{background:var(--sand)}
+.bg-foam{background:var(--foam)}
+.bg-navy{background:var(--navy);color:#fff}
+.sec-head{max-width:760px;margin-bottom:40px}
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.grid-2{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.card{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.card .body{padding:22px 22px 24px;display:flex;flex-direction:column;flex:1}
+.card .body > .btn-row{margin-top:auto;padding-top:8px}
+.card .ph{aspect-ratio:16/9}
+.card h3{margin-bottom:.35em}
+.card p{color:var(--muted);font-size:.98rem}
+.tile{display:block;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;text-decoration:none;color:var(--ink);transition:border-color .2s,transform .2s,box-shadow .2s}
+.tile:hover{border-color:var(--lagoon);box-shadow:var(--shadow);color:var(--ink);transform:translateY(-2px)}
+.tile h3{font-size:1.3rem}
+.tile p{color:var(--muted);font-size:.97rem;margin-bottom:.6em}
+.tile .more{font-weight:700;color:var(--ocean)}
+.price{font:600 1.55rem/1.1 var(--serif);color:var(--navy);margin:.1em 0 .2em}
+.price small{font:500 .82rem var(--sans);color:var(--muted);letter-spacing:0}
+.meta{list-style:none;padding:0;margin:0 0 1em;display:flex;flex-wrap:wrap;gap:6px}
+.meta li{font-size:.8rem;font-weight:700;color:var(--deep);background:var(--foam);border-radius:999px;padding:.25em .75em}
+/* split block: photo + copy */
+.split{display:grid;gap:34px;align-items:center}
+@media (min-width:900px){.split{grid-template-columns:1.05fr 1fr;gap:64px}.split.flip > :first-child{order:2}}
+.split .ph{border-radius:var(--r);aspect-ratio:4/3;box-shadow:var(--shadow)}
+/* dive sites */
+.site-list{list-style:none;padding:0;margin:0;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.site-list li{background:#fff;border-radius:14px;padding:18px 20px;border:1px solid var(--line)}
+.site-list h4{font:600 1.15rem/1.25 var(--serif);display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
+.site-list .depth{font:700 .76rem var(--sans);color:var(--lagoon);letter-spacing:.06em;text-transform:uppercase}
+.site-list p{margin:0;color:var(--muted);font-size:.96rem}
+/* price table */
+.table-wrap{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:6px 4px;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+caption{text-align:left;padding:16px 16px 6px;font:600 1.25rem var(--serif);color:var(--navy)}
+th,td{padding:12px 16px;text-align:right;border-bottom:1px solid var(--line);font-size:.98rem}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
+tbody th{font-weight:600}
+@media (max-width:420px){th,td{padding:10px 8px;font-size:.92rem}caption{padding:14px 8px 4px}}
+/* course rows */
+.rows{list-style:none;margin:0;padding:0;background:#fff;border-radius:var(--r);box-shadow:var(--shadow)}
+.rows li{display:grid;grid-template-columns:1fr auto auto;gap:4px 22px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line)}
+.rows li:last-child{border-bottom:0}
+.rows .name{font-weight:600}
+.rows .sub{display:block;font-size:.86rem;color:var(--muted);font-weight:400}
+.rows .amt{font-variant-numeric:tabular-nums;font-weight:700;color:var(--navy);text-align:right;white-space:nowrap}
+.rows a.book-sm{justify-self:end;font-weight:700;font-size:.9rem;color:var(--ocean);min-width:8.5em;text-align:right}
+@media (max-width:620px){.rows li{grid-template-columns:1fr auto;padding:14px 16px}.rows a.book-sm{grid-column:1/-1;justify-self:start;text-align:left;min-width:0}}
+details.more-list{margin-top:18px}
+details.more-list summary{cursor:pointer;font-weight:700;color:var(--ocean);padding:10px 0;list-style-position:inside}
+details.more-list[open] summary{margin-bottom:10px}
+.note{border-left:4px solid var(--lagoon);background:#fff;padding:14px 18px;border-radius:0 12px 12px 0;color:var(--muted);font-size:.95rem;margin:22px 0 0}
+.dark .note{background:rgba(255,255,255,.06);color:#d3e6ee;border-color:#7fc6d3}
+/* cruise timeline */
+.timeline{list-style:none;margin:0;padding:0;counter-reset:t}
+.timeline li{position:relative;padding:0 0 26px 74px}
+.timeline li::before{content:"";position:absolute;left:30px;top:8px;bottom:-8px;width:2px;background:rgba(255,255,255,.18)}
+.timeline li:last-child::before{display:none}
+.timeline .time{position:absolute;left:0;top:0;width:62px;font:700 .8rem/1.2 var(--sans);color:var(--navy);background:var(--sun);border-radius:8px;padding:6px 4px;text-align:center}
+.timeline h4{font:600 1.15rem/1.3 var(--serif);color:#fff}
+.timeline p{color:#cfe3eb;margin:0;font-size:.97rem}
+.price-card{background:#fff;color:var(--ink);border-radius:var(--r);padding:26px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.price-card .price{font-size:2rem}
+.price-card .ph.boat{margin:-26px -26px 22px;aspect-ratio:2/1;border-radius:var(--r) var(--r) 0 0}
+.price-card .small{color:var(--muted)}
+.price-card a:not(.btn){color:var(--ocean)}
+.price-card ul{padding-left:1.1em;margin:0 0 1.2em;color:var(--muted)}
+.price-card li{margin:.25em 0}
+.price-card{--focus:var(--ocean)}
+/* stay & dive placeholders */
+.ph-card{border:2px dashed #b9c9d2;border-radius:var(--r);padding:22px;background:rgba(255,255,255,.7)}
+.ph-card dl{margin:0 0 1em;display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:.95rem}
+.ph-card dt{color:var(--muted);font-weight:600}
+.ph-card dd{margin:0}
+/* gear */
+.check{list-style:none;padding:0;margin:0 0 1.2em}
+.check li{position:relative;padding:.35em 0 .35em 30px}
+.check li::before{content:"";position:absolute;left:2px;top:.72em;width:16px;height:9px;border-left:3px solid var(--lagoon);border-bottom:3px solid var(--lagoon);transform:rotate(-45deg)}
+/* pay */
+.pay-list{list-style:none;padding:0;margin:0;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.pay-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.pay-item p{color:var(--muted);font-size:.94rem;margin-bottom:.8em}
+.pill{display:inline-block;font:700 .74rem/1.3 var(--sans);letter-spacing:.04em;background:var(--confirm-bg);color:var(--confirm-ink);border-radius:999px;padding:.3em .8em}
+.policy{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.policy li{display:flex;gap:14px;align-items:baseline;background:#fff;border-radius:12px;padding:12px 16px;border:1px solid var(--line)}
+.policy b{min-width:6.5em;color:var(--navy)}
+/* contact */
+.contact-list{list-style:none;padding:0;margin:0;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.contact-list li{background:#fff;border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.contact-list .k{display:block;font:700 .76rem var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--lagoon);margin-bottom:4px}
+.contact-list a{font-weight:700;word-break:break-word}
+/* footer */
+.site-foot{background:#041d2d;color:#c6dbe4;padding:56px 0 34px;font-size:.95rem}
+.site-foot{--focus:var(--sun)}
+.foot-grid{display:grid;gap:30px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))}
+.site-foot h2{font:700 .78rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#fff;margin:0 0 12px}
+.site-foot ul{list-style:none;margin:0;padding:0}
+.site-foot li{margin:.35em 0}
+.site-foot a{color:#e7f1f4;text-decoration:none}
+.site-foot a:hover{color:var(--sun);text-decoration:underline}
+.foot-base{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:.86rem;color:#a9c3cf}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="ribbon" role="note">
+  <div class="wrap"><p><strong>Design prototype, not Big Blue's official website.</strong> Prepared for Big Blue Vanuatu by Pathfinder Automation Solutions. The official site is <a href="https://bigbluevanuatu.com">bigbluevanuatu.com</a>; Book buttons open its live booking pages. Items marked <mark class="confirm">[confirm]</mark> need Big Blue's sign-off.</p></div>
+</div>
+
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="#top" aria-label="Big Blue Vanuatu, back to top">
+      <svg width="38" height="38" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#0a5578"/><path d="M5 18c3-3 5-3 8 0s5 3 8 0 5-3 6-1" stroke="#f5efe4" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M8 23c2.4-2 4-2 6.4 0s4 2 6.4 0" stroke="#f2a65a" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      <span><b>Big Blue</b><small>Dive Vanuatu</small></span>
+    </a>
+    <a class="btn btn-book" href="https://bigbluevanuatu.com/book-now/">Book now</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="menu-label">Menu</span></button>
+    <nav class="site-nav" id="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="#dives">Dives</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#stay">Stay &amp; Dive</a></li>
+        <li><a href="#cruise">Cruise ships</a></li>
+        <li><a href="#gear">Gear hire</a></li>
+        <li><a href="#visit">Plan your visit</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero dark" id="top" aria-labelledby="hero-title">
+  <img src="https://bigbluevanuatu.com/wp-content/uploads/bigblue-banner01b.jpg" width="1500" height="1000" fetchpriority="high" decoding="async" alt="A diver gliding through clear blue water past a coral ledge">
+  <div class="wrap hero-copy">
+    <p class="eyebrow">PADI 5 Star Instructor Development Dive Resort · Port Vila</p>
+    <h1 id="hero-title">Dive Vanuatu from the Port Vila seawall</h1>
+    <p class="lead">Coral reefs, historic wrecks and a sunlit limestone cavern, all around Port Vila Harbour and Mele Bay. Boat dives twice a day, PADI courses from your first breath to instructor, and a boat that fits around your cruise ship.</p>
+    <div class="btn-row">
+      <a class="btn btn-sun" href="#dives">See dives &amp; prices</a>
+      <a class="btn btn-line" href="#courses">Learn to dive</a>
+    </div>
+    <ul class="facts">
+      <li><strong>20+ dive sites</strong>reefs, wrecks and a cavern</li>
+      <li><strong>Twice daily</strong>boat dives, six days a week</li>
+      <li><strong>Up to instructor</strong>Vanuatu's only PADI IDC centre</li>
+      <li><strong>Since 2005</strong>diving Vanuatu with Big Blue</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ WHAT WE DO ============ -->
+<section aria-labelledby="what-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">What we do</p>
+      <h2 id="what-title">Everything a diver needs, right on the harbour</h2>
+      <p class="lead">Whether you have one free morning off a cruise ship or two weeks to finally get certified, our shop in downtown Port Vila is where it starts.</p>
+    </div>
+    <div class="grid">
+      <a class="tile" href="#dives"><h3>Fun dives</h3><p>Morning doubles, afternoon singles, Thursday night dives and packs of 3 to 20 dives.</p><span class="more arrow">From Vt 11,500 </span></a>
+      <a class="tile" href="#courses"><h3>PADI courses</h3><p>Discover Scuba, Open Water, Advanced, Rescue, specialties and professional training.</p><span class="more arrow">Open Water Vt 59,500 </span></a>
+      <a class="tile" href="#cruise"><h3>Cruise-ship diving</h3><p>A boat set aside for passengers on ship days, timed around your day in port.</p><span class="more arrow">How it works </span></a>
+      <a class="tile" href="#stay"><h3>Stay &amp; Dive</h3><p>Build your Port Vila holiday around the diving, with a package put together for your dates.</p><span class="more arrow">Ask about packages </span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY PORT VILA ============ -->
+<section class="bg-sand" id="why" aria-labelledby="why-title">
+  <div class="wrap">
+    <div class="split">
+      <div class="ph"><img class="photo" src="https://bigbluevanuatu.com/wp-content/uploads/bigblue-cathedral-01.jpg" width="800" height="400" loading="lazy" decoding="async" alt="A diver inside the Cathedral, a limestone cavern near Port Vila"></div>
+      <div>
+        <p class="eyebrow">Why Port Vila</p>
+        <h2 id="why-title">A harbour full of reefs, wrecks and surprises</h2>
+        <p class="lead">Port Vila sits on a sheltered harbour inside a wide bay. For divers that means more than 20 sites around Port Vila, from shallow coral gardens to wrecks for experienced divers.</p>
+        <p>We pick each day's sites that morning, looking at the wind, weather and tides, the experience of everyone on board, and where you have already dived with us. Every now and then a dugong drops in to say hello.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:56px">A few of our favourite sites</h3>
+    <ul class="site-list">
+      <li><h4>Konanda <span class="depth">Wreck · 26 m</span></h4><p>A 45 m former island trader sitting upright on sand. You can explore the holds, cabin and bridge. A great first wreck.</p></li>
+      <li><h4>Star of Russia <span class="depth">Wreck · 34 m</span></h4><p>A 90 m square-rigged sailing ship from Harland and Wolff, the yard behind the Titanic. Schools of fish live inside. For experienced divers.</p></li>
+      <li><h4>Semele Federesen <span class="depth">Wreck · 30–55 m</span></h4><p>An inter-island cargo ship lying on sand, with the top of the wreck at 30 m. Visibility can reach 40 to 50 m. For experienced divers.</p></li>
+      <li><h4>The Cathedral <span class="depth">Cavern · 22 m</span></h4><p>A wide limestone cavern lit by shafts of sunlight through its open roof, then a wall swim back to the boat. Calm days only.</p></li>
+      <li><h4>Twin Bommies <span class="depth">Reef · 12–30 m</span></h4><p>Two coral bommies on a plateau that draw big crowds of fish. Look for nudibranchs and leaf scorpionfish, and turtles at night.</p></li>
+      <li><h4>Pink Panther <span class="depth">Wall · from 8 m</span></h4><p>Giant pink anemones full of clownfish on top of a wall that drops past 90 m. Keep an eye on the blue.</p></li>
+    </ul>
+    <p class="small" style="margin-top:20px">Also on the list: Kate's Corner, West Side Story, Yankee Juliette and more.</p>
+  </div>
+</section>
+
+<!-- ============ DIVES ============ -->
+<section id="dives" aria-labelledby="dives-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Fun dives</p>
+      <h2 id="dives-title">Dives &amp; prices</h2>
+      <p class="lead">Certified divers can book online. Every trip includes tanks, weights, a qualified dive guide and light refreshments between dives.</p>
+      <p class="small">Prices are per diver in Vanuatu vatu and already include taxes and card charges. Boats run six days a week <mark class="confirm">[confirm: which day there are no trips; booking pages say "daily"]</mark></p>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <div class="ph"><img class="photo" src="https://bigbluevanuatu.com/wp-content/uploads/dive-double.jpg" width="1200" height="630" loading="lazy" decoding="async" alt="Divers on a wreck during a morning double dive with Big Blue Vanuatu"></div>
+        <div class="body">
+          <h3>Morning double dive</h3>
+          <ul class="meta"><li>Leaves 8am</li><li>Back around noon</li></ul>
+          <p class="price">Vt 21,000 <small>own gear</small></p>
+          <p>Two dives in one morning. Vt 24,000 with full gear hire.</p>
+          <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/double-dive/">Book a double dive</a></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="ph"><img class="photo" src="https://bigbluevanuatu.com/wp-content/uploads/dive-single.jpg" width="1200" height="630" loading="lazy" decoding="async" alt="A diver with a clownfish on a reef near Port Vila"></div>
+        <div class="body">
+          <h3>Afternoon single dive</h3>
+          <ul class="meta"><li>Leaves 1pm</li></ul>
+          <p class="price">Vt 11,500 <small>own gear</small></p>
+          <p>One relaxed afternoon dive. Vt 13,000 with full gear hire.</p>
+          <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/single-dive/">Book a single dive</a></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="ph"><img class="photo" src="https://bigbluevanuatu.com/wp-content/uploads/dive-package.jpg" width="1200" height="630" loading="lazy" decoding="async" alt="Divers exploring the Semele wreck"></div>
+        <div class="body">
+          <h3>Dive packs</h3>
+          <ul class="meta"><li>3 to 20 dives</li><li>Use within 90 days</li></ul>
+          <p class="price">From Vt 31,500 <small>3 dives, own gear</small></p>
+          <p>Better value per dive. Choose your first day online and we will plan the rest with you. One pack per diver; packs can't be shared.</p>
+          <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/dive-package/">Book a dive pack</a></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="ph"><img class="photo" src="https://bigbluevanuatu.com/wp-content/uploads/dive-night.jpg" width="1200" height="630" loading="lazy" decoding="async" alt="A diver with a torch over the coral on a night dive"></div>
+        <div class="body">
+          <h3>Thursday night dive</h3>
+          <ul class="meta"><li>Thursdays, 5pm</li><li>Dived with us before</li></ul>
+          <p class="price">Vt 12,000</p>
+          <p>Open to divers who have already been out with us. Free to add when you buy a multi-dive pack.</p>
+          <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/night-dive/">Book a night dive</a></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="grid-2" style="margin-top:40px;align-items:start">
+      <div class="table-wrap">
+        <table>
+          <caption>Full price list</caption>
+          <thead><tr><th scope="col">Dives</th><th scope="col">Own gear</th><th scope="col">With gear hire</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Single dive</th><td>Vt 11,500</td><td>Vt 13,000</td></tr>
+            <tr><th scope="row">Double dive</th><td>Vt 21,000</td><td>Vt 24,000</td></tr>
+            <tr><th scope="row">3-dive pack</th><td>Vt 31,500</td><td>Vt 36,000</td></tr>
+            <tr><th scope="row">4-dive pack</th><td>Vt 40,000</td><td>Vt 46,000</td></tr>
+            <tr><th scope="row">6-dive pack</th><td>Vt 57,000</td><td>Vt 66,000</td></tr>
+            <tr><th scope="row">8-dive pack</th><td>Vt 72,000</td><td>Vt 84,000</td></tr>
+            <tr><th scope="row">10-dive pack</th><td>Vt 83,000</td><td>Vt 98,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3>Good to know</h3>
+        <ul class="check">
+          <li>You need a dive certification to book fun dives. Not certified yet? Start with a <a href="#courses">Discover Scuba Dive</a>.</li>
+          <li>Tanks and weights are always included. Gear hire adds a BCD and regulator, plus mask, fins and wetsuit. <a href="#gear">More on gear</a>.</li>
+          <li>Groups of six or more can have their own boat with a divemaster or instructor. <a href="#visit">Get in touch</a>.</li>
+          <li>Haven't dived for a while? Ease back in first.</li>
+        </ul>
+        <ul class="rows" aria-label="Refresher options">
+          <li><span class="name">Big Blue Refresher Ocean Dive<span class="sub"><mark class="confirm">[confirm: what's included]</mark></span></span><span class="amt">from Vt 3,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/big-blue-refresher-ocean-dive/">Book refresher</a></li>
+          <li><span class="name">PADI ReActivate scuba refresher<span class="sub"><mark class="confirm">[confirm: what's included]</mark></span></span><span class="amt">from Vt 9,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-reactivate-scuba-refresher-program/">Book ReActivate</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COURSES ============ -->
+<section class="bg-foam" id="courses" aria-labelledby="courses-title">
+  <div class="wrap">
+    <div class="split flip" style="margin-bottom:48px">
+      <div class="ph"><img class="photo" src="https://bigbluevanuatu.com/wp-content/uploads/2022/06/Discover-scuba-dive-Fred-3-1024x768-1.jpg" width="1024" height="768" loading="lazy" decoding="async" alt="An instructor teaching students in the pool during a Discover Scuba session"></div>
+      <div>
+        <p class="eyebrow">PADI courses</p>
+        <h2 id="courses-title">From your first breath to instructor</h2>
+        <p class="lead">Big Blue is Vanuatu's only PADI 5 Star Instructor Development Dive Resort, so we can take you as far as you want to go.</p>
+        <p>Course prices include gear hire, your PADI eLearning and custom landowner fees. Once you book, we send your PADI code so you can do the theory at home and keep your holiday for the water.</p>
+        <p class="small"><mark class="confirm">[confirm: course prices are current. The live courses page says "valid to 31 January 2024"; the booking pages show the same prices today]</mark></p>
+      </div>
+    </div>
+
+    <h3>Learn to dive</h3>
+    <div class="grid" style="margin-bottom:44px">
+      <article class="card"><div class="body">
+        <h3>Discover Scuba Dive</h3>
+        <ul class="meta"><li>Age 10+</li><li>Runs daily</li><li>Gear included</li></ul>
+        <p class="price">Vt 15,500</p>
+        <p>Never dived? Learn the basics in the pool, then follow your instructor along the reef at Pango Cove. You need to be able to swim.</p>
+        <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/discover-scuba-dive/">Book Discover Scuba</a></div>
+      </div></article>
+      <article class="card"><div class="body">
+        <h3>Discover Scuba + a single dive</h3>
+        <ul class="meta"><li>Age 10+</li><li>Gear included</li></ul>
+        <p class="price">Vt 28,500</p>
+        <p>The full Discover Scuba experience with a single dive added, for a second look underwater.</p>
+        <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/discover-scuba-dive-plus-single-dive/">Book Discover Scuba + dive</a></div>
+      </div></article>
+      <article class="card"><div class="body">
+        <h3>PADI Open Water Diver</h3>
+        <ul class="meta"><li>Age 10+</li><li>4 ocean dives</li><li>2½ days minimum</li></ul>
+        <p class="price">Vt 59,500</p>
+        <p>The world's most recognised dive certification. Theory online, pool training here, then four ocean dives around Port Vila Harbour, Mele Bay and Pango Cove. We fit it around your plans.</p>
+        <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/padi-open-water-course/">Book Open Water</a></div>
+      </div></article>
+    </div>
+
+    <h3>Keep going</h3>
+    <div class="grid">
+      <article class="card"><div class="body">
+        <h3>Advanced Open Water</h3>
+        <ul class="meta"><li>Age 12+</li><li>5 dives, 2 days</li></ul>
+        <p class="price">Vt 59,500</p>
+        <p>Deep and navigation dives, plus three adventure dives you choose: wreck, night, photography, buoyancy, search and recovery and more.</p>
+        <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/padi-advanced-open-water-course/">Book Advanced</a></div>
+      </div></article>
+      <article class="card"><div class="body">
+        <h3>Rescue Diver</h3>
+        <ul class="meta"><li>Needs first aid in last 12 months</li></ul>
+        <p class="price">Vt 59,500</p>
+        <p>Learn to prevent and handle problems underwater. Students often finish it with a real sense of achievement.</p>
+        <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/padi-rescue-course/">Book Rescue</a></div>
+      </div></article>
+      <article class="card"><div class="body">
+        <h3>Rescue + EFR First Aid</h3>
+        <ul class="meta"><li>Two courses in one</li></ul>
+        <p class="price">Vt 85,000</p>
+        <p>No recent first aid course? This combo covers Emergency First Response and Rescue Diver together.</p>
+        <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/padi-rescue-course-plus-efr-first-aid/">Book Rescue + EFR</a></div>
+      </div></article>
+    </div>
+
+    <details class="more-list">
+      <summary>PADI specialty courses (11)</summary>
+      <ul class="rows">
+        <li><span class="name">Dive Against Debris<span class="sub">1 dive</span></span><span class="amt">from Vt 14,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-specialty-course-dive-against-debris/">Book Dive Against Debris</a></li>
+        <li><span class="name">Fish Identification<span class="sub">2 dives</span></span><span class="amt">from Vt 29,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-specialty-course-fish-identification/">Book Fish ID</a></li>
+        <li><span class="name">Peak Performance Buoyancy<span class="sub">2 dives</span></span><span class="amt">from Vt 29,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-specialty-course-peak-performance-buoyancy/">Book Buoyancy</a></li>
+        <li><span class="name">Underwater Naturalist<span class="sub">2 dives</span></span><span class="amt">from Vt 29,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-specialty-course-underwater-naturalist/">Book Naturalist</a></li>
+        <li><span class="name">Digital Underwater Photography<span class="sub">3 dives</span></span><span class="amt">from Vt 55,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-specialty-digital-underwater-photography-course/">Book Photography</a></li>
+        <li><span class="name">Underwater Navigation<span class="sub">3 dives</span></span><span class="amt">from Vt 55,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-specialty-course-navigation/">Book Navigation</a></li>
+        <li><span class="name">Night Diver<span class="sub">3 dives</span></span><span class="amt">from Vt 55,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-specialty-course-night/">Book Night Diver</a></li>
+        <li><span class="name">Deep Diver<span class="sub">4 dives</span></span><span class="amt">from Vt 56,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-specialty-course-deep/">Book Deep</a></li>
+        <li><span class="name">Wreck Diver<span class="sub">4 dives</span></span><span class="amt">from Vt 56,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-specialty-course-wreck/">Book Wreck</a></li>
+        <li><span class="name">Search and Recovery<span class="sub">4 dives</span></span><span class="amt">from Vt 56,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-specialty-course-search-and-recovery/">Book Search and Recovery</a></li>
+        <li><span class="name">Deep &amp; Wreck combination<span class="sub">8 dives</span></span><span class="amt">from Vt 107,500</span><a class="book-sm" href="https://bigbluevanuatu.com/dive/padi-specialty-course-deep-wreck-combination/">Book Deep &amp; Wreck</a></li>
+      </ul>
+      <p class="small" style="margin-top:12px">Complete five specialties as a Rescue Diver and you qualify as a PADI Master Scuba Diver, the top non-professional rating.</p>
+    </details>
+
+    <div class="note">
+      <h4>Going pro: Divemaster and Instructor Development</h4>
+      <p style="margin:0 0 .6em">We are the only centre running PADI Instructor Development Courses in Vanuatu, and one of only a handful in the South Pacific. Divemaster trainees work alongside our experienced team in a 5 Star IDC centre, which is great preparation for the IDC itself.</p>
+      <p style="margin:0 0 .8em"><mark class="confirm">[confirm: show Divemaster and IDC prices? The shop lists them as password-protected products at Vt 160,000 and Vt 475,000]</mark></p>
+      <a class="btn btn-line" href="https://bigbluevanuatu.com/contact/">Ask about pro courses</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STAY & DIVE ============ -->
+<section class="bg-sand" id="stay" aria-labelledby="stay-title">
+  <div class="wrap">
+    <div class="split">
+      <div class="ph"><img class="photo" src="https://bigbluevanuatu.com/wp-content/uploads/bigblue-about-banner.jpg" width="1500" height="750" loading="lazy" decoding="async" alt="Two divers giving the OK sign underwater"></div>
+      <div>
+        <p class="eyebrow">Stay &amp; Dive</p>
+        <h2 id="stay-title">Make the trip about the diving</h2>
+        <p class="lead">Stay in Port Vila and dive with us through your holiday. Tell us your dates and how much diving you want, and we will put a package together for you.</p>
+        <p class="small"><mark class="confirm">[confirm: partner accommodation, what each package includes and prices. The live site's "Stay &amp; Dive Deals" menu link opens a page that no longer exists]</mark></p>
+        <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/contact/">Ask about Stay &amp; Dive</a></div>
+      </div>
+    </div>
+    <div class="grid" style="margin-top:44px">
+      <div class="ph-card">
+        <h3><mark class="confirm">[confirm: package name]</mark></h3>
+        <dl><dt>Stay</dt><dd><mark class="confirm">[confirm: accommodation]</mark></dd><dt>Nights</dt><dd><mark class="confirm">[confirm]</mark></dd><dt>Dives</dt><dd><mark class="confirm">[confirm]</mark></dd><dt>From</dt><dd><mark class="confirm">[confirm: price VUV]</mark></dd></dl>
+      </div>
+      <div class="ph-card">
+        <h3><mark class="confirm">[confirm: package name]</mark></h3>
+        <dl><dt>Stay</dt><dd><mark class="confirm">[confirm: accommodation]</mark></dd><dt>Nights</dt><dd><mark class="confirm">[confirm]</mark></dd><dt>Course</dt><dd><mark class="confirm">[confirm: e.g. which PADI course]</mark></dd><dt>From</dt><dd><mark class="confirm">[confirm: price VUV]</mark></dd></dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CRUISE ============ -->
+<section class="bg-navy dark" id="cruise" aria-labelledby="cruise-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Cruise-ship divers</p>
+      <h2 id="cruise-title">Two dives on your day in port</h2>
+      <p class="lead">Most ships dock at 8am, a little late for our regular morning boat. So on ship days we set aside a boat just for passengers, with time for two dives and the trip back to your ship.</p>
+    </div>
+    <div class="grid-2" style="align-items:start">
+      <ol class="timeline">
+        <li><span class="time">8:00</span><h4>Your ship arrives</h4><p>Everyone comes ashore at the wharf, even if your ship anchors in the harbour.</p></li>
+        <li><span class="time">8:30–10:30</span><h4>Meet us on the seafront</h4><p>Make your own way to our shop. A water taxi across the harbour is often the easiest way. We can't collect from the wharf, as pick-ups there are reserved for local transport operators.</p></li>
+        <li><span class="time">2 dives</span><h4>Your own boat and guide</h4><p>A PADI Divemaster or Instructor shows you the best sites. Fresh fruit and locally made cookies between dives.</p></li>
+        <li><span class="time">12:30–2:30</span><h4>Back on the seafront</h4><p>Back ashore with time to get to your ship.</p></li>
+      </ol>
+      <div class="price-card">
+        <div class="ph boat"><img class="photo" src="https://bigbluevanuatu.com/wp-content/uploads/bigblue-boat-lady.jpg" width="800" height="400" loading="lazy" decoding="async" alt="The Lady, Big Blue's 9 metre aluminium dive boat, moored in Port Vila"></div>
+        <h3>Private boat, 2-tank trip</h3>
+        <p class="price">Vt 98,000 <small>per boat, up to 4 divers</small></p>
+        <p class="small"><mark class="confirm">[confirm: price. The cruise page says Vt 98,000 per boat; the booking page shows Vt 21,000]</mark></p>
+        <ul>
+          <li>One person books and pays online at least 48 hours before the ship docks, then fills the seats.</li>
+          <li>Boats take 4 or 6 divers. For a 5th or 6th diver, add "extra divers" when you book. <mark class="confirm">[confirm: extra-diver price]</mark></li>
+          <li>Gear hire is included. <mark class="confirm">[confirm: the booking page also offers gear hire at +Vt 1,500]</mark></li>
+        </ul>
+        <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/cruiseshipboattrip/">Book the cruise-ship boat</a></div>
+        <p class="small" style="margin:14px 0 0">Prefer the regular 1pm boat? <a href="https://bigbluevanuatu.com/dive/single-dive/">Book a single dive</a>. Never dived? Try a <a href="#courses">Discover Scuba Dive</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GEAR ============ -->
+<section id="gear" aria-labelledby="gear-title">
+  <div class="wrap">
+    <div class="split flip">
+      <div class="ph"><img class="photo" src="https://bigbluevanuatu.com/wp-content/uploads/2022/06/bigblue-banner05.jpg" width="1500" height="1000" loading="lazy" decoding="async" alt="A diver in mask, regulator and BCD surrounded by bubbles"></div>
+      <div>
+        <p class="eyebrow">Gear hire</p>
+        <h2 id="gear-title">Bring what you love, hire the rest</h2>
+        <p class="lead">Travelling light? Just add gear hire when you book online.</p>
+        <ul class="check">
+          <li><strong>Full kit, Vt 1,500 per dive:</strong> BCD and regulator, with mask, fins and wetsuit included.</li>
+          <li><strong>Always included:</strong> tanks and weights on every dive.</li>
+          <li><strong>Courses and Discover Scuba:</strong> gear hire is already in the price.</li>
+          <li><strong>Shearwater dive computers:</strong> hire separately <mark class="confirm">[confirm: price]</mark></li>
+          <li><strong>Dive torches:</strong> hire separately <mark class="confirm">[confirm: price]</mark></li>
+        </ul>
+        <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/double-dive/">Book a dive with gear</a><a class="btn btn-line" href="#dives">See all prices</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLAN YOUR VISIT ============ -->
+<section class="bg-foam" id="visit" aria-labelledby="visit-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Plan your visit</p>
+      <h2 id="visit-title">Find us on the seawall</h2>
+      <p class="lead">Our dive shop is on the seawall in downtown Port Vila, the capital of Vanuatu. Call or email us about bookings, questions, or just to say hello.</p>
+    </div>
+    <ul class="contact-list">
+      <li><span class="k">Address</span>On the seawall, downtown Port Vila, Vanuatu<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Big%20Blue%20Vanuatu%20Port%20Vila">Open in Maps</a> <mark class="confirm">[confirm: map pin]</mark></li>
+      <li><span class="k">Opening hours</span><mark class="confirm">[confirm: shop opening hours]</mark></li>
+      <li><span class="k">Phone</span><a href="tel:+6785544054">+678 554 4054</a></li>
+      <li><span class="k">WhatsApp</span><a href="https://wa.me/6785544054">Message us on WhatsApp</a><br><mark class="confirm">[confirm: is +678 554 4054 on WhatsApp?]</mark></li>
+      <li><span class="k">Email</span><a href="mailto:dive@bigbluevanuatu.com">dive@bigbluevanuatu.com</a></li>
+      <li><span class="k">Facebook</span><a href="https://www.facebook.com/BigBlueVanuatu/">Big Blue on Facebook</a></li>
+    </ul>
+
+    <div class="grid-2" style="margin-top:56px;align-items:start">
+      <div id="pay">
+        <h3>Ways to pay</h3>
+        <ul class="pay-list" id="ways-to-pay" aria-live="polite">
+          <li class="pay-item"><p>Ask us about payment options when you book.</p></li>
+        </ul>
+        <p class="small" style="margin-top:14px">Online bookings are paid on the bigbluevanuatu.com checkout.</p>
+      </div>
+      <div>
+        <h3>Cancellations</h3>
+        <ul class="policy">
+          <li><b>14+ days</b><span>Full refund of your prepayment</span></li>
+          <li><b>14 days to 36 hours</b><span>50% refund</span></li>
+          <li><b>Under 36 hours</b><span>No refund</span></li>
+        </ul>
+        <p class="small" style="margin-top:14px">If weather or sea conditions make diving unsafe, we will refund you in full or find you another time. To reschedule instead of cancelling, contact us at least three days ahead. <a href="https://bigbluevanuatu.com/terms-and-conditions/">Full terms</a></p>
+      </div>
+    </div>
+
+    <div class="note">
+      <h4>Before you dive</h4>
+      <p style="margin:0">Bring your certification details to book fun dives. We recommend dive insurance from DAN (Divers Alert Network); <a href="https://members.danap.org/#/signup?referralCode=B00213">get DAN cover</a>. The booking calendar shows times in "Pacific/Noumea", which is the same time zone as Vanuatu.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CARE ============ -->
+<section aria-labelledby="care-title">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">Caring for our reefs</p>
+      <h2 id="care-title">Diving that gives back</h2>
+      <p>Big Blue is a PADI 100% AWARE partner: when a student certifies with us, a contribution goes to ocean conservation. Every few months, usually on a Sunday afternoon, we run a Dive Against Debris to clear rubbish from local sites. Come along.</p>
+      <div class="btn-row"><a class="btn btn-book" href="https://bigbluevanuatu.com/dive/dive-against-debris/">Book Dive Against Debris</a></div>
+      <p class="small" style="margin-top:12px">From Vt 500.</p>
+    </div>
+    <div>
+      <p class="eyebrow">Our story</p>
+      <h3>Local divers, local knowledge</h3>
+      <p>Mike and Maggie Crawford started Big Blue in 2005. Mike spent years training Ni-Vanuatu divers all the way to divemaster and instructor, and that is still at the heart of the team today. Many of our crew grew up in these waters and love showing them off.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot dark">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p style="font:600 1.4rem/1.1 var(--serif);color:#fff;margin:0 0 8px">Big Blue Vanuatu</p>
+        <p style="margin:0">PADI 5 Star Instructor Development Dive Resort on the seawall in Port Vila, Vanuatu.</p>
+      </div>
+      <nav aria-label="Footer">
+        <h2>Diving</h2>
+        <ul>
+          <li><a href="#dives">Dives &amp; prices</a></li>
+          <li><a href="#courses">PADI courses</a></li>
+          <li><a href="#stay">Stay &amp; Dive</a></li>
+          <li><a href="#cruise">Cruise-ship divers</a></li>
+          <li><a href="#gear">Gear hire</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a href="tel:+6785544054">+678 554 4054</a></li>
+          <li><a href="mailto:dive@bigbluevanuatu.com">dive@bigbluevanuatu.com</a></li>
+          <li><a href="https://www.facebook.com/BigBlueVanuatu/">Facebook</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Bookings</h2>
+        <ul>
+          <li><a href="https://bigbluevanuatu.com/book-now/">Book now</a></li>
+          <li><a href="https://bigbluevanuatu.com/terms-and-conditions/">Terms &amp; cancellations</a></li>
+          <li><a href="https://bigbluevanuatu.com/diver-info/">Diver login</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© Big Blue Vanuatu</span>
+      <span>Prototype by Pathfinder Automation Solutions. Not the live site.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js" defer></script>
+</body>
+</html>
